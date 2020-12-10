@@ -46,7 +46,8 @@ export default function Papers() {
       <Button
         onPress={async () => {
           const t = Date.now();
-          await papersDb.set(`paper-${t}`, { title: t });
+          const cid = await papersDb.set(`paper-${t}`, { title: t });
+          console.log("cid of new paper: ", cid);
           refetch();
         }}
       >
