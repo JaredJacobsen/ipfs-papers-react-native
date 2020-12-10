@@ -8,10 +8,12 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
     "ipfs-http-client": "^48.1.2",
-    "orbit-db": "^0.26.0",
+    "it-all": "^1.0.4",
+    "it-to-buffer": "^1.0.4",
     "ramda": "^0.27.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

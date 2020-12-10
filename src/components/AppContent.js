@@ -3,11 +3,11 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Appbar } from "react-native-paper";
 import Menu from "./Menu";
 import Main from "./Main";
-import { useOrbit } from "../hooks/useOrbit";
+import useIpfs from "../hooks/useIpfs";
 
 export default function AppContent() {
   const [showMenu, setShowMenu] = useState(true);
-  const { loading } = useOrbit();
+  const { loading } = useIpfs();
 
   if (loading) {
     return <ActivityIndicator />;

@@ -2,21 +2,18 @@ import React from "react";
 import { toPairs } from "ramda";
 import useFetch from "../hooks/useFetch";
 import { Button, Divider, Title, IconButton, Text } from "react-native-paper";
-import { usePapersDb } from "../hooks/useOrbit";
+import useIpfs from "../hooks/useIpfs";
 import { ScrollView, View } from "react-native";
 
 export default function Papers() {
-  const papersDb = usePapersDb();
+  const { papersStore } = useIpfs();
 
   const { papers, refetch } = useFetch(
-    async ({ setState }) => setState({ papers: await papersDb.all }),
+    async ({ setState }) => setState({ papers: await papersStore.all() }),
     [],
     { papers: [] }
   );
 
-  // const papers = { key: { title: "title" } };
-
-  console.log(toPairs(papers), papers);
   return (
     <ScrollView>
       {toPairs(papers).map(([k, paper]) => (
@@ -46,7 +43,7 @@ export default function Papers() {
       <Button
         onPress={async () => {
           const t = Date.now();
-          const cid = await papersDb.set(`paper-${t}`, { title: t });
+          const cid = await papersStore.set(`paper-${t}`, { title: t });
           console.log("cid of new paper: ", cid);
           refetch();
         }}
