@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { Button, Divider, Title, IconButton, Text } from "react-native-paper";
 import useIpfs from "../hooks/useIpfs";
 import { ScrollView, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function Papers() {
   const { papersStore } = useIpfs();
@@ -13,6 +14,8 @@ export default function Papers() {
     [],
     { papers: [] }
   );
+
+  console.log(papers, toPairs(papers));
 
   return (
     <ScrollView>
@@ -27,14 +30,37 @@ export default function Papers() {
                 <Text>Description</Text>
               </View>
             </View>
-            <View style={{ flex: 1 }}>
-              <IconButton
-                icon="delete"
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              {paper.pdf && (
+                <Button
+                  style={{ flex: 1 }}
+                  onPress={async () => {
+                    try {
+                      window.open("http://localhost:8080/ipfs/" + paper.pdf);
+                    } catch (error) {
+                      console.log("Failed to open pdf: ", error);
+                    }
+                  }}
+                >
+                  <Icon name="pdf-box" size={25} />
+                </Button>
+              )}
+              <Button
+                style={{ flex: 1 }}
                 onPress={async () => {
-                  await papersDb.del(k);
+                  await papersStore.del(k);
                   refetch();
                 }}
-              />
+              >
+                <Icon name="delete" size={25} />
+              </Button>
             </View>
           </View>
           <Divider />
@@ -43,7 +69,10 @@ export default function Papers() {
       <Button
         onPress={async () => {
           const t = Date.now();
-          const cid = await papersStore.set(`paper-${t}`, { title: t });
+          const cid = await papersStore.set(`paper-${t}`, {
+            title: t,
+            pdf: "QmTPbKxxdPMeXHg4mYf2sbsPnRbxXh3pqCB6Ji21vqqeJF",
+          });
           console.log("cid of new paper: ", cid);
           refetch();
         }}

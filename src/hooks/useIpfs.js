@@ -2,6 +2,7 @@
 import IpfsHttpClient from "ipfs-http-client";
 import all from "it-all";
 import toBuffer from "it-to-buffer";
+import { zipObj } from "ramda";
 import { useEffect, useState } from "react";
 
 const IPFS_PAPERS_DIR = "/ipfs-papers/";
@@ -38,6 +39,7 @@ export default function useIpfs() {
         },
 
         async del(id) {
+          console.log(id);
           try {
             await ipfs.files.rm(PAPERS_DIR + id);
           } catch (error) {
@@ -46,12 +48,14 @@ export default function useIpfs() {
         },
 
         async all() {
-          let papers = [];
+          let papers = {};
           try {
             const files = await all(ipfs.files.ls(PAPERS_DIR));
+            const filenames = files.map((f) => f.name);
             papers = await Promise.all(
-              files.map((f) => read(PAPERS_DIR + f.name))
+              filenames.map((name) => read(PAPERS_DIR + name))
             );
+            papers = zipObj(filenames, papers);
           } catch (error) {
             console.log("Failed to fetch papers: ", error);
           }
