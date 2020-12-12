@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { ActivityIndicator, Appbar } from "react-native-paper";
+import { ActivityIndicator, Appbar, Text } from "react-native-paper";
 import Menu from "./Menu";
 import Main from "./Main";
-import useIpfs from "../hooks/useIpfs";
+import useIpfsStatus from "../hooks/useIpfsStatus";
 
 export default function AppContent() {
   const [showMenu, setShowMenu] = useState(true);
-  const { loading } = useIpfs();
+  const ipfsStatus = useIpfsStatus();
 
-  if (loading) {
+  if (ipfsStatus === "testing connection") {
     return <ActivityIndicator />;
+  } else if (ipfsStatus === "unavailable") {
+    return (
+      <Text>
+        Unable to reach IPFS. Make sure that IPFS is running at
+        http://localhost:5001
+      </Text>
+    );
   }
 
   return (

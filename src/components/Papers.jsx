@@ -1,14 +1,12 @@
 import React from "react";
 import { toPairs } from "ramda";
 import useFetch from "../hooks/useFetch";
-import { Button, Divider, Title, IconButton, Text } from "react-native-paper";
-import useIpfs from "../hooks/useIpfs";
+import { Button, Divider, Title, Text } from "react-native-paper";
 import { ScrollView, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import papersStore from "../papersStore";
 
 export default function Papers() {
-  const { papersStore } = useIpfs();
-
   const { papers, refetch } = useFetch(
     async ({ setState }) => setState({ papers: await papersStore.all() }),
     [],
@@ -78,6 +76,9 @@ export default function Papers() {
         }}
       >
         Add Paper
+      </Button>
+      <Button onPress={async () => refetch()}>
+        <Icon name="refresh" size={40} />
       </Button>
     </ScrollView>
   );
