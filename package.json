@@ -8,20 +8,24 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@createnextapp/async-local-storage": "^1.0.1",
     "buffer": "^6.0.3",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
+    "fuzzysearch": "^1.0.3",
     "ipfs-http-client": "^48.1.2",
     "it-all": "^1.0.4",
     "it-to-buffer": "^1.0.4",
-    "ramda": "^0.27.1",
+    "lodash": "^4.17.20",
+    "lunr": "^2.3.9",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-paper": "^4.4.1",
     "react-native-web": "~0.13.12",
     "react-router-dom": "^5.2.0",
-    "recoil": "^0.1.2"
+    "recoil": "^0.1.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

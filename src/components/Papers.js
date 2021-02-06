@@ -1,23 +1,39 @@
 import React from "react";
-import { toPairs } from "ramda";
+import { filter, lowerCase, toPairs } from "lodash/fp";
 import useFetch from "../hooks/useFetch";
 import { Button, Divider, Title, Text } from "react-native-paper";
 import { ScrollView, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import papersStore from "../papersStore";
+import { useRecoilValue } from "recoil";
+import { omniboxTextState } from "../atoms";
+import fuzzysearch from "fuzzysearch";
+
+function useFilterPapers(papers) {
+  const omniboxText = useRecoilValue(omniboxTextState);
+
+  return omniboxText
+    ? filter(
+        (paper, k) =>
+          fuzzysearch(lowerCase(omniboxText), lowerCase(paper.title)),
+        papers
+      )
+    : papers;
+}
 
 export default function Papers() {
   const { papers, refetch } = useFetch(
-    async ({ setState }) => setState({ papers: await papersStore.all() }),
+    async ({ setState }) =>
+      setState({ papers: await papersStore.fetchPapersFromIpfs() }),
     [],
     { papers: [] }
   );
 
-  console.log(papers, toPairs(papers));
+  const papersFilt = useFilterPapers(papers);
 
   return (
     <ScrollView>
-      {toPairs(papers).map(([k, paper]) => (
+      {toPairs(papersFilt).map(([k, paper]) => (
         <View key={k}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 10 }}>

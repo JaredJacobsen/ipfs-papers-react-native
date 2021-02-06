@@ -16,6 +16,16 @@ export default function Menu() {
             left={(props) => <List.Icon {...props} icon="sync" />}
           />
         </List.Accordion>
+        <List.Accordion
+          title="Authors"
+          left={(props) => <List.Icon {...props} icon="account" />}
+        >
+          <List.Item title="web3" />
+          <List.Item
+            title="machine-learning"
+            left={(props) => <List.Icon {...props} icon="sync" />}
+          />
+        </List.Accordion>
       </ScrollView>
     </View>
   );

@@ -1,4 +1,4 @@
-import { type } from "ramda";
+import { isFunction } from "lodash/fp";
 import { useEffect, useState } from "react";
 import usePrevious from "./usePrevious";
 
@@ -25,7 +25,7 @@ export default function useFetch(fetch, dependencies = [], initialState = {}) {
           setState((s) => ({
             ...s,
             isLoading: withFinishLoading ? false : s.isLoading,
-            ...(type(newStateOrFunction) === "Function"
+            ...(isFunction(newStateOrFunction)
               ? newStateOrFunction(s)
               : newStateOrFunction),
           }));

@@ -9,7 +9,8 @@ const theme = {
   roundness: 0,
   colors: {
     ...DefaultTheme.colors,
-    primary: "skyblue",
+    primary: "#56B8BC",
+    secondary: "#FBCD52",
   },
 };
 
